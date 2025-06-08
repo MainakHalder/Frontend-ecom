@@ -24,7 +24,10 @@ const Header = () => {
   // If any element is typed on search bar it will navigate to product page from any current pages
 
   return (
-    <nav className="navbar navbar-expand-lg bg-body-light d-flex justify-content-around">
+    <nav
+      className="navbar navbar-expand-lg bg-body-light d-flex justify-content-around align-items-center p-1"
+      style={{ left: "0", right: "0" }}
+    >
       <div className="container-fluid row">
         <div className="col">
           <Link className="navbar-brand text-primary fs-3 fw-semibold" to="/">

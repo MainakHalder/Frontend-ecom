@@ -4,7 +4,7 @@ const UserDetails = ({ user, selectedAddress, handleEdit, editAddress }) => {
       <h1 className="text-secondary text-center">User Details</h1>
       <hr />
       <div className="card-body d-flex justify-content-between">
-        <div>
+        <div className="container-fluid">
           <p className="fs-4 ms-5">
             <strong>Name: </strong> {user[0]?.userName}
           </p>
@@ -33,7 +33,7 @@ const UserDetails = ({ user, selectedAddress, handleEdit, editAddress }) => {
             width="100"
             height="100"
             fill="currentColor"
-            className="bi bi-person-circle"
+            className="bi bi-person-circle img-fluid"
             viewBox="0 0 16 16"
           >
             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />

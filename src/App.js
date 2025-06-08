@@ -11,6 +11,7 @@ import MainPage from "./pages/MainPage";
 import Checkout from "./pages/checkout/Checkout";
 import Summary from "./pages/Summary";
 import { ToastContainer } from "react-toastify";
+import "./App.css";
 function App() {
   return (
     <div className="App">

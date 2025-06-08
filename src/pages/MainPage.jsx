@@ -86,7 +86,7 @@ const MainPage = () => {
                 src="https://ik.imagekit.io/dzh6adrkw/ecom-section2.png?updatedAt=1748863288011"
                 alt="section-image"
                 className="img-top img-fluid my-3"
-                style={{ height: "450px", width: "800px" }}
+                style={{ height: "450px", width: "700px" }}
               />
             </div>
             <Link className="btn btn-outline-primary" to="/products">

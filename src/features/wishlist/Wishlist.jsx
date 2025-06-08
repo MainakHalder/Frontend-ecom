@@ -63,7 +63,7 @@ const Wishlist = () => {
                       </h4>
                     </div>
                     <button
-                      className="card-footer btn btn-primary"
+                      className="card-footer btn btn-primary my-1"
                       onClick={() => handleCart(products._id, _id)}
                     >
                       Move to Cart

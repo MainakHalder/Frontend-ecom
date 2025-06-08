@@ -2,12 +2,13 @@ import { fetchProducts } from "./productSlice";
 import { fetchCart, addCart } from "../cart/cartSlice";
 import { fetchWishlist, addWishlist } from "../wishlist/wishlistSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setFilter, setSortBy } from "./productSlice";
 import Spinners from "../../components/Spinners";
 import FilterProducts from "./FilterProducts";
 import ProductLists from "./ProductLists";
 import filteredProduct from "./filteredProductFunc.js";
+import ToggleScreenSize from "./ToggleScreenSize.jsx";
 const Products = () => {
   const dispatch = useDispatch();
   const { status, products, filter, sortBy, searchedProducts } = useSelector(
@@ -15,11 +16,15 @@ const Products = () => {
   );
   const { cartStatus, cart } = useSelector((state) => state.cart);
   const { wishlistStatus, wishlist } = useSelector((state) => state.wishlist);
+  const [screenSize, setScreenSize] = useState(0);
+  const [toggleSize, setToggleSize] = useState(true);
+  // hooks taken to re-arrange the components when the screen size decreases
 
   useEffect(() => {
     dispatch(fetchProducts());
     dispatch(fetchCart());
     dispatch(fetchWishlist());
+    setScreenSize(window.innerWidth);
   }, [dispatch]);
 
   let cartItems = cart?.map((item) => item.products._id || item.products);
@@ -27,6 +32,9 @@ const Products = () => {
     (item) => item.products._id || item.products
   );
   //Array's with productId from cart and wishlist to check if the product is already present or not
+
+  console.log("screen size", screenSize);
+  console.log("toggle", toggleSize);
 
   let productList = searchedProducts
     ? products.filter(
@@ -100,35 +108,87 @@ const Products = () => {
           <Spinners />
         </div>
       ) : (
-        <div className="row">
-          <FilterProducts
-            filter={filter}
-            sortBy={sortBy}
-            handleFilter={handleFilter}
-            handleClear={handleClear}
-            handleSort={handleSort}
-          />
-          <div className="col bg-body-tertiary p-4">
-            <h3>
-              {products ? (
-                <span className="my-5">
-                  Showing All Products:
-                  <span className="fs-5 text-secondary mx-3">
-                    (showing {sortedProducts.length} products)
-                  </span>{" "}
-                </span>
-              ) : (
-                ""
+        <div className="row pb-5">
+          {screenSize < 1080 ? (
+            <>
+              {!toggleSize && (
+                <FilterProducts
+                  filter={filter}
+                  sortBy={sortBy}
+                  handleFilter={handleFilter}
+                  handleClear={handleClear}
+                  handleSort={handleSort}
+                  toggleSize={toggleSize}
+                />
               )}
-            </h3>
-            <ProductLists
-              sortedProducts={sortedProducts}
-              addCartItem={addCartItem}
-              addWishlistItem={addWishlistItem}
-              cartItems={cartItems}
-              wishlistItems={wishlistItems}
+            </>
+          ) : (
+            <FilterProducts
+              filter={filter}
+              sortBy={sortBy}
+              handleFilter={handleFilter}
+              handleClear={handleClear}
+              handleSort={handleSort}
+              toggleSize={toggleSize}
             />
-          </div>
+          )}
+          {screenSize < 1080 ? (
+            <>
+              {toggleSize && (
+                <div className="col bg-body-tertiary p-4">
+                  <h3>
+                    {products ? (
+                      <span className="my-5">
+                        Showing All Products:
+                        <span className="fs-5 text-secondary mx-3">
+                          (showing {sortedProducts.length} products)
+                        </span>{" "}
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                  </h3>
+                  <ProductLists
+                    sortedProducts={sortedProducts}
+                    addCartItem={addCartItem}
+                    addWishlistItem={addWishlistItem}
+                    cartItems={cartItems}
+                    wishlistItems={wishlistItems}
+                  />
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="col bg-body-tertiary p-4">
+              <h3>
+                {products ? (
+                  <span className="my-5">
+                    Showing All Products:
+                    <span className="fs-5 text-secondary mx-3">
+                      (showing {sortedProducts.length} products)
+                    </span>{" "}
+                  </span>
+                ) : (
+                  ""
+                )}
+              </h3>
+              <ProductLists
+                sortedProducts={sortedProducts}
+                addCartItem={addCartItem}
+                addWishlistItem={addWishlistItem}
+                cartItems={cartItems}
+                wishlistItems={wishlistItems}
+              />
+            </div>
+          )}
+          {screenSize < 1080 ? (
+            <ToggleScreenSize
+              toggleSize={toggleSize}
+              setToggleSize={setToggleSize}
+            />
+          ) : (
+            ""
+          )}
         </div>
       )}
     </>
