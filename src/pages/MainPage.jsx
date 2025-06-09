@@ -1,13 +1,21 @@
 import { useEffect } from "react";
 import { fetchCategories } from "../features/products/productSlice";
+import { setFilter } from "../features/products/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 const MainPage = () => {
   const dispatch = useDispatch();
-  const { categories } = useSelector((state) => state.products);
+  const { categories, filter } = useSelector((state) => state.products);
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
+  const handleLink = (categoryName) => {
+    if (!filter.category.includes(categoryName)) {
+      let categoryArr = filter.category;
+      categoryArr = [...categoryArr, categoryName];
+      dispatch(setFilter({ filterBy: "category", filterValue: categoryArr }));
+    }
+  };
   return (
     <>
       <div className="bg-body-tertiary text-secondary text-center">
@@ -79,7 +87,14 @@ const MainPage = () => {
             <div className="row d-flex justify-content-around">
               {categories.map(({ name }, index) => (
                 <div className="col-md-3 my-3 mx-3" key={index}>
-                  <h3 className="card-header my-3">{name.toUpperCase()}</h3>
+                  <Link
+                    to="/products"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                    onClick={() => handleLink(name)}
+                    className="text-info"
+                  >
+                    <h3 className="card-header my-3">{name.toUpperCase()}</h3>
+                  </Link>
                 </div>
               ))}
               <img

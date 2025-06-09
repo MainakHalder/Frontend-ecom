@@ -13,6 +13,7 @@ const Summary = () => {
                 id="inlineRadio1"
                 value="option1"
                 checked={true}
+                onChange={() => {}}
               />
               <label className="form-check-label" htmlFor="inlineRadio1">
                 Order placed

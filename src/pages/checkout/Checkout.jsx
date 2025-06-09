@@ -22,11 +22,16 @@ const Checkout = () => {
     cart,
     selectedProduct,
     selectedSize,
+    orderHistory,
   } = useSelector((state) => state.cart);
   const { userStatus, user, selectedAddress } = useSelector(
     (state) => state.address
   );
   const totalCheckoutPrice = cart?.reduce(
+    (acc, cur) => (acc += cur.products.price * cur.quantity),
+    0
+  );
+  const totalOrderPrice = orderHistory?.reduce(
     (acc, cur) => (acc += cur.products.price * cur.quantity),
     0
   );
@@ -66,6 +71,30 @@ const Checkout = () => {
                 </div>
               </div>
             </div>
+            {orderHistory.length ? (
+              <div className="card my-3">
+                <h3 className="card-header text-secondary">Order History</h3>
+                <div className="card-body">
+                  <ul className="list-group">
+                    {orderHistory.map((item, index) => (
+                      <li
+                        className="list-group-item text-secondary fw-semibold"
+                        key={index}
+                      >
+                        {item.products.name} x {item.quantity} - ₹
+                        {item.products.price}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="fw-semibold">
+                    Total ordered price -{" "}
+                    {totalOrderPrice - coupon + deliveryCharges}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       )}

@@ -1,7 +1,7 @@
 import { fetchWishlist, deleteWishlist } from "./wishlistSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addCart, fetchCart } from "../cart/cartSlice";
+import { addCart, fetchCart, updateCart } from "../cart/cartSlice";
 import Spinners from "../../components/Spinners";
 const Wishlist = () => {
   const dispatch = useDispatch();
@@ -20,6 +20,19 @@ const Wishlist = () => {
         quantity: 1,
       };
       dispatch(addCart(cartItem));
+    } else {
+      let cartId = cart?.reduce(
+        (acc, cur) => (cur.products._id === productId ? (acc = cur._id) : ""),
+        ""
+      );
+      let updatedCart = cart?.reduce(
+        (acc, cur) =>
+          cur.products._id === productId
+            ? { ...acc, products: cur.products, quantity: cur.quantity + 1 }
+            : "",
+        { products: {}, quantity: 0 }
+      );
+      dispatch(updateCart({ cartId, updatedCart }));
     }
     dispatch(deleteWishlist(wishlistId));
   };

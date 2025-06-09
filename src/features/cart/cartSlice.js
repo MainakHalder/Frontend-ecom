@@ -48,6 +48,7 @@ export const cartSlice = createSlice({
     deliveryCharges: 30,
     coupon: 500,
     selectedProduct: {},
+    orderHistory: [],
   },
   reducers: {
     setSizeArr: (state, action) => {
@@ -66,6 +67,7 @@ export const cartSlice = createSlice({
       state.selectedProduct = action.payload;
     },
     setClearCart: (state) => {
+      state.orderHistory = state.cart;
       state.cart = [];
       state.selectedProduct = {};
       state.selectedSize = {};
