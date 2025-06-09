@@ -25,16 +25,13 @@ const Products = () => {
     dispatch(fetchCart());
     dispatch(fetchWishlist());
     setScreenSize(window.innerWidth);
-  }, [dispatch]);
+  }, [dispatch, screenSize]);
 
   let cartItems = cart?.map((item) => item.products._id || item.products);
   let wishlistItems = wishlist?.map(
     (item) => item.products._id || item.products
   );
   //Array's with productId from cart and wishlist to check if the product is already present or not
-
-  console.log("screen size", screenSize);
-  console.log("toggle", toggleSize);
 
   let productList = searchedProducts
     ? products.filter(

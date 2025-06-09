@@ -14,7 +14,7 @@ const Summary = () => {
                 value="option1"
                 checked={true}
               />
-              <label className="form-check-label" for="inlineRadio1">
+              <label className="form-check-label" htmlFor="inlineRadio1">
                 Order placed
               </label>
             </div>
@@ -27,7 +27,7 @@ const Summary = () => {
                 value="option2"
                 disabled
               />
-              <label className="form-check-label" for="inlineRadio2">
+              <label className="form-check-label" htmlFor="inlineRadio2">
                 Out for delivery
               </label>
             </div>
@@ -40,7 +40,7 @@ const Summary = () => {
                 value="option3"
                 disabled
               />
-              <label className="form-check-label" for="inlineRadio3">
+              <label className="form-check-label" htmlFor="inlineRadio3">
                 Order delivered
               </label>
             </div>
