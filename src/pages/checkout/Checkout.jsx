@@ -46,10 +46,7 @@ const Checkout = () => {
         ],
       }),
       { order: [], address: selectedAddress || user[0]?.address[0] }
-    );
-    console.log("cart", cart);
-    console.log("productOrder", productOrders);
-    console.log("price", cart[0].products.price);
+    ); // productOrders holds the order object to be added
     dispatch(addOrder(productOrders));
     cart?.map((item) => dispatch(deleteCart(item._id)));
     dispatch(setClearCart());

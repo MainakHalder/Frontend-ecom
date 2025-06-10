@@ -5,7 +5,6 @@ import Spinners from "../components/Spinners";
 const Order = () => {
   const dispatch = useDispatch();
   const { status, orders } = useSelector((state) => state.order);
-  console.log(orders);
   useEffect(() => {
     dispatch(fetchOrder());
   }, [dispatch]);
@@ -24,7 +23,7 @@ const Order = () => {
                 <div className="row my-3">
                   <h2 className="text-center text-secondary">Last orders</h2>
                   {orders.map(({ order, address, _id, createdAt }) => (
-                    <div className="col-md-4" key={_id}>
+                    <div className="col-md-4 my-3" key={_id}>
                       <div className="card">
                         <h5 className="card-header">
                           Ordered At: {createdAt.slice(0, 10)}
@@ -74,7 +73,7 @@ const Order = () => {
                     orders[orders.length - 2],
                     orders[orders.length - 1],
                   ].map(({ order, address, _id, createdAt }) => (
-                    <div className="col-md-4" key={_id}>
+                    <div className="col-md-4 my-3" key={_id}>
                       <div className="card">
                         <h5 className="card-header">
                           Ordered At: {createdAt.slice(0, 10)}
