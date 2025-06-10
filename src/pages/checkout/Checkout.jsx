@@ -6,8 +6,10 @@ import {
   deleteCart,
 } from "../../features/cart/cartSlice";
 import { fetchUser } from "../../features/address/addressSlice";
+import { addOrder } from "../../extraFeatures/orderSlice";
 import { Link } from "react-router-dom";
 import OrderSummary from "./OrderSummary";
+import Order from "../../extraFeatures/Order";
 import Spinners from "../../components/Spinners";
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -22,7 +24,6 @@ const Checkout = () => {
     cart,
     selectedProduct,
     selectedSize,
-    orderHistory,
   } = useSelector((state) => state.cart);
   const { userStatus, user, selectedAddress } = useSelector(
     (state) => state.address
@@ -31,11 +32,25 @@ const Checkout = () => {
     (acc, cur) => (acc += cur.products.price * cur.quantity),
     0
   );
-  const totalOrderPrice = orderHistory?.reduce(
-    (acc, cur) => (acc += cur.products.price * cur.quantity),
-    0
-  );
   const handleCheckout = () => {
+    const productOrders = cart?.reduce(
+      (acc, cur) => ({
+        ...acc,
+        order: [
+          ...acc.order,
+          {
+            product: cur.products.name,
+            price: cur.products.price,
+            quantity: cur.quantity,
+          },
+        ],
+      }),
+      { order: [], address: selectedAddress || user[0]?.address[0] }
+    );
+    console.log("cart", cart);
+    console.log("productOrder", productOrders);
+    console.log("price", cart[0].products.price);
+    dispatch(addOrder(productOrders));
     cart?.map((item) => dispatch(deleteCart(item._id)));
     dispatch(setClearCart());
   };
@@ -71,30 +86,7 @@ const Checkout = () => {
                 </div>
               </div>
             </div>
-            {orderHistory.length ? (
-              <div className="card my-3">
-                <h3 className="card-header text-secondary">Order History</h3>
-                <div className="card-body">
-                  <ul className="list-group">
-                    {orderHistory.map((item, index) => (
-                      <li
-                        className="list-group-item text-secondary fw-semibold"
-                        key={index}
-                      >
-                        {item.products.name} x {item.quantity} - ₹
-                        {item.products.price}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="fw-semibold">
-                    Total ordered price -{" "}
-                    {totalOrderPrice - coupon + deliveryCharges}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
+            <Order />
           </div>
         </div>
       )}

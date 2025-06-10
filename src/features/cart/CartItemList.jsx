@@ -79,7 +79,7 @@ const CartItemList = ({
                 <div className="d-flex">
                   Quantity:{"  "}
                   <button
-                    className="btn btn-secondary btn-sm circle-btn"
+                    className="btn btn-secondary btn-sm circle-btn ms-1"
                     onClick={() =>
                       handleQuantity(_id, products._id, quantity, "add")
                     }
